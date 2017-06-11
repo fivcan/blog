@@ -1,3 +1,9 @@
 from django.contrib import admin
+from models import *
 
-# Register your models here.
+
+class essayAdmin(admin.ModelAdmin):
+    list_display = ['title', 'time']
+
+admin.site.register(EssayInfo, essayAdmin)
+
