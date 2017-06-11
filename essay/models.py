@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+
+class essay(models.Model):
+    title = models.CharField(max_length=40)
+    time = models.DateTimeField()
+    content = models.TextField()
