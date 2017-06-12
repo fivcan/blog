@@ -3,6 +3,7 @@ import views
 
 urlpatterns = [
     url(r'^$', views.index),
+    url(r'^ajax_index/$', views.ajax_index),
     url(r'^detail/$', views.detail),
     url(r'^about/$', views.about),
     url(r'^post/$', views.post),

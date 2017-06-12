@@ -1,16 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from models import *
 from markdown import markdown
 
 
 def index(request):
-    if request.GET.get('display') == '-1':
-        essays = EssayInfo.objects.all()
-    else:
-        essays = EssayInfo.objects.all()[0:1]
+    essays = EssayInfo.objects.all().order_by('-time')[:10]
     return render(request, 'essay/index.html', {'essays': essays})
 
+def ajax_index(request):
+    essays = EssayInfo.objects.all().order_by('-time')[10:]
+    data = []
+    for i in essays:
+        data.append({'title': i.title, 'time': i.time, 'content': i.content, 'id': i.id})
+    data = {'data': data}
+    return JsonResponse(data)
 
 def md2html(mdstr):
     exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite','markdown.extensions.tables','markdown.extensions.toc']

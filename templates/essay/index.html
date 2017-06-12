@@ -26,7 +26,7 @@
     <!-- Main Content -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+            <div id='forloop' class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
 
 
                <!-- for loop -->
@@ -44,16 +44,54 @@
                 </div>
                 <hr>
                 {% endfor %}
+            <div id="extends"></div>
 
 
                 <div class="clearfix">
-                    <a class="btn btn-secondary float-right" href="/?display=-1">Older Posts &rarr;</a>
+                    <a id='older' class="btn btn-secondary float-right" href="/?display=-1">Older Posts &rarr;</a>
                 </div>
             </div>
         </div>
     </div>
 
     <hr>
+
+    <script src="/static/js/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function () {
+            var $btn = $('#older');
+
+            $btn.click(function () {
+                $.ajax({
+                    url:'/essay/ajax_index/',
+                    method:'get',
+                    async:false,
+                    success:function (data) {
+
+
+                        for(i=0;i<data['data'].length;i++){
+                            str = '<div class="post-preview">'+
+                            '<a href="/essay/detail/?id='+data['data'][i]['id']+'">'+
+                               ' <h2 class="post-title">'+
+                                    ''+data['data'][i]['title']+''+
+                                '</h2>'+
+                                '<h3 class="post-subtitle">'+
+                                    ''+data['data'][i]['title']+''+
+                               ' </h3>'+
+                                '</a>'+
+                                '<p class="post-meta">Essay on '+data['data'][i]['time']+'</p>'+
+                           ' </div>'+
+                            '<hr>';
+                            $('#extends').append(str)
+                            $btn.hide()
+                        }
+
+                    }
+                });
+                return false
+            })
+        })
+    </script>
 
     <!-- Footer -->
 {% include 'temp/temp_footer.html' %}
