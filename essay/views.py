@@ -5,8 +5,12 @@ from markdown import markdown
 
 
 def index(request):
-    essays = EssayInfo.objects.all()
+    if request.GET.get('display') == '-1':
+        essays = EssayInfo.objects.all()
+    else:
+        essays = EssayInfo.objects.all()[0:1]
     return render(request, 'essay/index.html', {'essays': essays})
+
 
 def md2html(mdstr):
     exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite','markdown.extensions.tables','markdown.extensions.toc']
@@ -41,3 +45,15 @@ def post(request):
     return render(request, 'essay/post.html')
 def contact(request):
     return render(request, 'essay/contact.html')
+
+def send(request):
+    contactor = ContactInfo()
+    contactor.user = request.POST.get('user')
+    contactor.email = request.POST.get('email')
+    contactor.phone = request.POST.get('phone')
+    contactor.content = request.POST.get('content')
+    contactor.save()
+    context = {'is_send': True}
+    response = render(request, 'essay/contact.html', context)
+
+    return response

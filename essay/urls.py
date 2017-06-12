@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^about/$', views.about),
     url(r'^post/$', views.post),
     url(r'^contact/$', views.contact),
-
+    url(r'^send/$', views.send),
 ]
